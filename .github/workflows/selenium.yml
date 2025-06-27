@@ -1,25 +1,37 @@
-name: Run Selenium Tests
+name: Prueba de Selenium con Edge
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  test:
+  selenium_test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Set up Python
+    - name: Setup Python
       uses: actions/setup-python@v4
       with:
-        python-version: 3.11
+        python-version: '3.11'
 
-    - name: Install dependencies
+    - name: Instalar dependencias
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install selenium
 
-    - name: Run tests with Chrome
+    - name: Descargar and setup Microsoft Edge WebDriver
+      run: |
+        EDGE_VERSION="137.0.3296.93"
+        wget https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip
+        unzip edgedriver_linux64.zip
+        sudo mv msedgedriver /usr/local/bin/
+        msedgedriver --version
+
+    - name: Run Selenium test
       run: |
         python test_busqueda.py

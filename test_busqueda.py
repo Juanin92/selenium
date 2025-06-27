@@ -4,7 +4,7 @@ from selenium.webdriver.common.keys import Keys
 
 import time
 
-driver = webdriver.Chrome()
+driver = webdriver.Edge()
 
 driver.get("https://duckduckgo.com/")
 
