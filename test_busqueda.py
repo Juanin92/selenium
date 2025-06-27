@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.edge.options import Options
 from selenium.webdriver.edge.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import tempfile
 import time
 
@@ -31,7 +33,10 @@ buscador.send_keys(Keys.RETURN)
 time.sleep(2)
 
 # Verificar que exista algún resultado
-resultados = driver.find_elements(By.CSS_SELECTOR,'[data-testid="result"]')
+wait = WebDriverWait(driver, 10)  # espera hasta 10 segundos
+resultados = wait.until(
+    EC.presence_of_all_elements_located((By.CSS_SELECTOR, '[data-testid="result"]'))
+)
 assert len(resultados) > 0, "No se encontraron resultados."
 
 print("Prueba funcional completada con éxito")
