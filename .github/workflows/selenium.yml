@@ -26,7 +26,7 @@ jobs:
 
     - name: Descargar and setup Microsoft Edge WebDriver
       run: |
-        EDGE_VERSION=$(curl -s https://msedgewebdriverstorage.blob.core.windows.net/edgewebdriver/LATEST_STABLE | tr -d '\r')
+        EDGE_VERSION=$(curl -s https://msedgewebdriverstorage.blob.core.windows.net/edgewebdriver/LATEST_STABLE | sed 's/[^0-9.]//g')
         wget https://msedgedriver.azureedge.net/${EDGE_VERSION}/edgedriver_linux64.zip
         unzip edgedriver_linux64.zip
         sudo mv msedgedriver /usr/local/bin/
